@@ -5,6 +5,8 @@ $(document).ready(function(){
 
     var questionOptions =[];
     var selectedQuestion;
+    let startingTime = 20;
+    var intervalID;
 
 // Functions
 // ----------------------------------------------------------------------------------------------------
@@ -16,9 +18,33 @@ $(document).ready(function(){
         } return arr;
     }
 
+    // set question to be displayed
     var setSelectedQuestion = () => {
         selectedQuestion = questionOptions[Math.floor(Math.random() * questionOptions.length)];
         console.log(selectedQuestion);
+    }
+
+    // start the clock
+    var startTimer = () => {
+        intervalID = setInterval(runningTime, 1000);
+    }
+
+    // reduce the time, and updata the dom
+    var runningTime = () => {
+        startingTime--;
+        console.log(startingTime);
+
+        endTimer();
+    }
+
+    // end timer if starting time is 0, and set it back to 20
+    var endTimer = () => {
+
+        if (startingTime === 0) {
+            clearTimeout(intervalID);
+            startingTime = 20;
+            console.log("time is out");
+        }
     }
 
 
@@ -30,9 +56,10 @@ $(document).ready(function(){
         loopPush(data, questionOptions);
 
     }).then(function() {
-        
+
         console.log(questionOptions);
         setSelectedQuestion();
+        startTimer();
     });
 
 

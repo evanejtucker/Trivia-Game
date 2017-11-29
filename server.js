@@ -32,7 +32,6 @@ db.once('open', function() {
 
     var q1 = new Questions({question: "Who was the First President of the United States?", answers: ["George Washington", "John Adams", "Thomas Jefferson", "Alexander Hamilton"], correctAnswer: "George Washington"});
     var q2 = new Questions({question: "When was the constitution written?", answers: ["1776", "1807", "1787", "1782"], correctAnswer: "1787"});
-
     // saveToDB(q2);
 
 });

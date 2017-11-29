@@ -1,6 +1,6 @@
 
-// Dependencies
 
+// Dependencies
 var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
@@ -10,7 +10,7 @@ var options = [];
 
 mongoose.Promise = Promise;
 
-var Country = require("./models/Countries.js");
+var Questions = require("./models/Questions.js");
 
 var app = express()
 
@@ -35,12 +35,12 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, "/../public/index.html"));
 });
 
-app.get('/options', function (req, res) {
-    Country.find(function(err, wordOptions) {
-        if (err) return err;
-        res.send(wordOptions)
-    })
-});
+// app.get('/options', function (req, res) {
+//     Country.find(function(err, wordOptions) {
+//         if (err) return err;
+//         res.send(wordOptions)
+//     })
+// });
 
 
 // Listen on port 3000

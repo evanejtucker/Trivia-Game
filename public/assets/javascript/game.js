@@ -3,7 +3,8 @@ $(document).ready(function(){
 // Global Variables
 // ----------------------------------------------------------------------------------------------------
 
-    var questionOptions =[];
+    var questionOptions = [];
+    var usedQuestions = [];
     var selectedQuestion;
     let startingTime = 20;
     var intervalID;
@@ -34,8 +35,14 @@ $(document).ready(function(){
 
     // set question to be displayed
     var setSelectedQuestion = () => {
-        selectedQuestion = questionOptions[Math.floor(Math.random() * questionOptions.length)];
-        displayQuestion(selectedQuestion);
+
+        if(questionOptions.length === 0) {
+            questionOptions = usedQuestions;
+            console.log("You havegone through all questions")
+        }
+
+        selectedQuestion = questionOptions.splice(Math.floor(Math.random() * questionOptions.length), 1)[0];
+        usedQuestions.push(selectedQuestion);
     }
 
     // update the timer in the dom
@@ -45,32 +52,30 @@ $(document).ready(function(){
 
     // start the clock
     var startTimer = () => {
-
+        endTimer();
         startingTime = 20;
         intervalID = setInterval(runningTime, 1000);
     }
 
     // reduce the time, and updata the dom
     var runningTime = () => {
-        startingTime--;
+        
         updateTimer();
-        endTimer();
+        if (startingTime <= 0) {
+            loses++;
+            startGame();
+        }
+        startingTime--;
     }
 
     // end timer if starting time is 0, and set it back to 20
     var endTimer = () => {
-
-        if (startingTime === 0) {
-            clearTimeout(intervalID);
-            updateTimer();
-        }
+        clearInterval(intervalID);
+        updateTimer();
     }
 
     // displays questions and answers
     var displayQuestion = (question) => {
-
-        clearDisplayedQuestion();
-        startTimer();
 
         $("#question").text(question.question);
 
@@ -88,20 +93,36 @@ $(document).ready(function(){
 
     var userGuess = (question) => {
         $(".answer").on("click", function() {
-            console.log(this.value);
             if (this.value === removeSpaces(question.correctAnswer)) {
-                console.log("correct");
                 wins++;
+                startGame();
             } else {
-                console.log("incorrect");
                 loses++;
+                startGame();
             }
+
         });
     }
 
+    // clears question data
     var clearDisplayedQuestion = () => {
         $("#question").empty();
         $("#answers").empty();
+    }
+
+    // update wins and loses in the dom
+    var updateScores = () => {
+        $("#wins").html("Correct: " + wins);
+        $("#loses").text("Incorect: " + loses);
+    }
+
+    // initailizes each round in the game
+    var startGame = () => {
+        updateScores();
+        startTimer();
+        clearDisplayedQuestion();
+        setSelectedQuestion();
+        displayQuestion(selectedQuestion);  
     }
 
 
@@ -114,8 +135,7 @@ $(document).ready(function(){
 
     }).then(function() {
 
-        console.log(questionOptions);
-        setSelectedQuestion();
+        $("#startGame").on("click", startGame);
 
     });
 

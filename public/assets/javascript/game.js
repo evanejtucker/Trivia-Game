@@ -6,10 +6,15 @@ $(document).ready(function(){
     var questionOptions = [];
     var usedQuestions = [];
     var selectedQuestion;
+
     let startingTime = 20;
     var intervalID;
+
     var wins = 0;
     var loses = 0;
+    
+    // used to count how many questions the user has answered
+    var roundCounter = 0;
 
 // Functions
 // ----------------------------------------------------------------------------------------------------
@@ -118,6 +123,7 @@ $(document).ready(function(){
 
     // initailizes each round in the game
     var startGame = () => {
+        roundCounter++;
         updateScores();
         startTimer();
         clearDisplayedQuestion();

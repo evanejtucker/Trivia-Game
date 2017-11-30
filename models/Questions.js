@@ -19,6 +19,7 @@ var QuestionsSchema = new Schema({
   }],
   correctAnswer: {
     type: String,
+    unique: false,
     required: true  
   }
 

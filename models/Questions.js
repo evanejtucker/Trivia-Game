@@ -14,6 +14,7 @@ var QuestionsSchema = new Schema({
   },
   answers: [{
     type: String || Number,
+    unique: false,
     required: true
   }],
   correctAnswer: {
